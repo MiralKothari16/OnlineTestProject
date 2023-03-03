@@ -1,0 +1,15 @@
+E:\Bacancy\OnlineTest.Services\bin\Debug\net6.0\OnlineTest.Services.deps.json
+E:\Bacancy\OnlineTest.Services\bin\Debug\net6.0\OnlineTest.Services.dll
+E:\Bacancy\OnlineTest.Services\bin\Debug\net6.0\OnlineTest.Services.pdb
+E:\Bacancy\OnlineTest.Services\bin\Debug\net6.0\OnlineTest.Model.dll
+E:\Bacancy\OnlineTest.Services\bin\Debug\net6.0\OnlineTest.Model.pdb
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.csproj.AssemblyReference.cache
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.GeneratedMSBuildEditorConfig.editorconfig
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.AssemblyInfoInputs.cache
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.AssemblyInfo.cs
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.csproj.CoreCompileInputs.cache
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.csproj.CopyComplete
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.dll
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\refint\OnlineTest.Services.dll
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\OnlineTest.Services.pdb
+E:\Bacancy\OnlineTest.Services\obj\Debug\net6.0\ref\OnlineTest.Services.dll
