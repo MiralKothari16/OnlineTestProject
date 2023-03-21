@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OnlineTest.Services.DTO;
+using OnlineTest.Services.DTO.AddDTO;
+using OnlineTest.Services.DTO.GetDTO;
+using OnlineTest.Services.DTO.UpdateDTO;
 using OnlineTest.Services.Interface;
+using System.Diagnostics.Eventing.Reader;
+using System.Net;
+using System.Runtime.Serialization;
 
 namespace OnlineTest.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -15,26 +22,36 @@ namespace OnlineTest.Controllers
         {
             _userService = userService;
         }
+        //[HttpGet]
+        //public ActionResult<GetUserDTO> Get()
+        //{
+        //    return Ok(_userService.GetUsers());
+        //}
         [HttpGet]
-        public ActionResult<UserDTO> Get()
+        public ActionResult<GetUserDTO> GetUsers(int page, int content)
         {
-            var data =_userService.GetUsers();
-            return Ok (data);
-        }
+            return Ok(_userService.UserPagination(page,content));
+         }
+        //[HttpGet("UserById")]
+        //public ActionResult<GetUserDTO> GetUserById(int Id)
+        //{
+        //    return Ok(_userService.GetUserById(Id));
+        //}
         [HttpPost]
-        public IActionResult Post(UserDTO user)
+        public IActionResult AddUser(AddUserDTO user)
         {
             return Ok(_userService.AddUser(user));
         }
         [HttpPut]
-        public IActionResult Put(UserDTO user)
+        public IActionResult UpdateUser(UpdateUserDTO user)
         {
-            return Ok (_userService.UpdateUser(user));
+            return Ok(_userService.UpdateUser(user));            
         }
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
             return Ok(_userService.DeleteUser(Id));
         }
+        ///
     }
 }

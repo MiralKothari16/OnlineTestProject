@@ -10,12 +10,21 @@ namespace OnlineTest.Model.Repository
 {
     public class UserRepository  :IUserRepository
     {
+        #region Field
+
         private readonly OnlineTestContext _context;
 
+        #endregion
+
+        #region Cntr
         public UserRepository(OnlineTestContext context)
         {
-            _context = context; 
+            _context = context;
         }
+        #endregion
+
+        #region Methods
+
         public bool AddUser(User user)
         {
             _context.Users.Add(user);
@@ -23,19 +32,32 @@ namespace OnlineTest.Model.Repository
         }
         public IEnumerable<User> GetUsers()
         {
-            return _context.Users.ToList()  ;
+          // return _context.Users(x => x.IsActive == true ));
+           return _context.Users.Where(x=>x.IsActive== true).ToList() ;
         }
-
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == id);
+        }
+        public User GetUserByEmail (string Email) {
+            return _context.Users.FirstOrDefault(x => x.Email == Email);
+        }
         public bool UpdateUser(User user) {
-            _context.Users.Update(user);
+            _context.Users.Update(user); 
             return _context.SaveChanges()>0;
         }
-        public bool DeleteUser(int Id) {
-            var del = _context.Users.Find(Id);
-            if (del != null)
-            { _context.Users.Remove(del); }
-                return _context.SaveChanges() > 0;
-            
+        public bool DeleteUser(User user)
+        {
+            _context.Entry(user).Property("IsActive").IsModified = false;
+               return _context.SaveChanges() > 0;
         }
+        public IEnumerable<User> UserPagination(int page, int content)
+        {
+           return _context.Users.Skip((page-1)*content).Take(content).ToList();
+        }
+        
+        #endregion
+
+
     }
 }
