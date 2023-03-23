@@ -24,10 +24,15 @@ namespace OnlineTest.Model.Repository
         {
             return _context.Tests.ToList();
         }
-        public bool AddTest(Test test)
+        public int AddTest(Test test)
         {
             _context.Tests.Add(test);
-            return _context.SaveChanges() > 0;
+            if (_context.SaveChanges() > 0)
+            { return test.Id; }
+            else
+            {
+                return 0;
+            }
         }
         public bool UpdateTest(Test test)
         {

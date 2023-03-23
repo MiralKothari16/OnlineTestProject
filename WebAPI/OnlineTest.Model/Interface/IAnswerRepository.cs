@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace OnlineTest.Model.Interface
 
         Answer GetAnswerById(int id);
         IEnumerable<Answer> GetAnswerByQuestionId(int questionId);
-        bool  AddAnswer(Answer answer);
+        bool isAnswerExist(int testId,int quesId,string answ);
+        int  AddAnswer(Answer answer);
         bool UpdateAnswer(Answer answer);
 
         IEnumerable<Answer> Pagination(int page, int content);

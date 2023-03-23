@@ -144,10 +144,17 @@ namespace OnlineTest.Services.Services
                     response.Message = "Bad Request.";
                     response.Error = "Test not found.";
                 }
-                if (resultCrId != null && resulttestId != null)
+                var resultExistQue = _questionRepository.IsQuestionExist(question.TestId, question.Que);
+                if(resultExistQue!= null)
+                {
+                    response.Status = 400;
+                    response.Message = "Bad request.";
+                    response.Error = "Question already exists.";
+                }
+                if (resultCrId != null && resulttestId != null && resultExistQue == null )
                 {
                     var addQues = _questionRepository.AddQuestions(_mapper.Map<Questions>(question));
-                    if (addQues!= null )
+                    if (addQues>0 )
                     {
                         response.Status = 204;
                         response.Message = "Question is created;";
@@ -189,7 +196,15 @@ namespace OnlineTest.Services.Services
                     response.Error = "Question not found";
                     return response;
                 }
-                if (resulttestId != null && questionById!=null)
+                var resultExistQue = _questionRepository.IsQuestionExist(question.TestId, question.Que);
+                if (resultExistQue != null)
+                {
+                    response.Status = 400;
+                    response.Message = "Bad request.";
+                    response.Error = "Question already exists.";
+                }
+
+                if (resulttestId != null && questionById!=null && resultExistQue==null)
                 {
                     var updateQuestion = _questionRepository.UpdateQuestions(_mapper.Map<Questions>(question));
 

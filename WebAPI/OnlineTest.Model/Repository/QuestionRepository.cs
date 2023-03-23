@@ -32,10 +32,11 @@ namespace OnlineTest.Model.Repository
             return _context.Questions.FirstOrDefault(x=>x.Id==id);            
         }
 
-        public bool AddQuestions(Questions question)
+        public int AddQuestions(Questions question)
         {
             _context.Questions.Add(question);
-            return _context.SaveChanges()>0;
+            if (_context.SaveChanges() > 0) { return question.Id; }
+            else { return 0; }
         }
 
         public bool UpdateQuestions(Questions question)
@@ -46,6 +47,7 @@ namespace OnlineTest.Model.Repository
             _context.Entry(question).Property("Weightage").IsModified = true;
             return _context.SaveChanges()>0;
         }
+
         public IEnumerable<Questions> Paginnation(int page, int content)
         {
             return _context.Questions.Skip((page-1)*content).Take(content);
@@ -54,6 +56,19 @@ namespace OnlineTest.Model.Repository
         IEnumerable<Questions> IQuestionRepository.GetQuestionByTestId(int testId)
         {
             return _context.Questions.Where(x => x.TestId == testId && x.Active == true).ToList();
+        }
+
+        bool IQuestionRepository.IsQuestionExist(int testid, string que)
+        {
+            var result = _context.Questions.Where(x => x.TestId == testid && x.Que == que & x.Active == true);
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion

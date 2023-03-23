@@ -49,6 +49,48 @@ namespace OnlineTest.Model.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("OnlineTest.Model.EmailNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<string>("FromEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MainContentHTML")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ProcessedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<string>("ToEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EmailNotifications");
+                });
+
             modelBuilder.Entity("OnlineTest.Model.QuestionAnswerMapping", b =>
                 {
                     b.Property<int>("Id")
@@ -260,6 +302,53 @@ namespace OnlineTest.Model.Migrations
                     b.ToTable("Tests");
                 });
 
+            modelBuilder.Entity("OnlineTest.Model.TestEmailLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AccessedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<DateTime>("ExpireOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<DateTime>("SubmitOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TestEmailLinks");
+                });
+
             modelBuilder.Entity("OnlineTest.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -317,6 +406,17 @@ namespace OnlineTest.Model.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.EmailNotification", b =>
+                {
+                    b.HasOne("OnlineTest.Model.User", "user_Id")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user_Id");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.QuestionAnswerMapping", b =>
@@ -402,6 +502,25 @@ namespace OnlineTest.Model.Migrations
                     b.Navigation("Technology");
 
                     b.Navigation("UserCreatedBy");
+                });
+
+            modelBuilder.Entity("OnlineTest.Model.TestEmailLink", b =>
+                {
+                    b.HasOne("OnlineTest.Model.Test", "test_Id")
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineTest.Model.User", "user_Id")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("test_Id");
+
+                    b.Navigation("user_Id");
                 });
 
             modelBuilder.Entity("OnlineTest.Model.UserRole", b =>

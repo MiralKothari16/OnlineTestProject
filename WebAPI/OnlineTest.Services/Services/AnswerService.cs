@@ -27,10 +27,10 @@ namespace OnlineTest.Services.Services
         private readonly IQuestionAnswerMappingRepository _questionAnswerMappingRepository;
         #endregion  
         #region Const
-        public AnswerService(IAnswerRepository answerRepository,ITestRepository testRepository,IQuestionRepository questionRepository,IQuestionAnswerMappingRepository questionAnswerMappingRepository,IMapper mapper)
+        public AnswerService(IAnswerRepository answerRepository, ITestRepository testRepository, IQuestionRepository questionRepository, IQuestionAnswerMappingRepository questionAnswerMappingRepository, IMapper mapper)
         {
             _answerRepository = answerRepository;
-            _mapper = mapper; 
+            _mapper = mapper;
             _testRepository = testRepository;
             _questionRepository = questionRepository;
             _questionAnswerMappingRepository = questionAnswerMappingRepository;
@@ -44,7 +44,7 @@ namespace OnlineTest.Services.Services
             var response = new ResponseDTO();
             try
             {
-                var getAns =_mapper.Map<List<GetAnswerDTO>>(_answerRepository.GetAnswer().ToList());
+                var getAns = _mapper.Map<List<GetAnswerDTO>>(_answerRepository.GetAnswer().ToList());
                 if (getAns.Count() > 0)
                 {
                     response.Status = 200;
@@ -117,10 +117,16 @@ namespace OnlineTest.Services.Services
                     response.Error = "Question not found";
                     return response;
                 }
-
-
+                var isansexist = _answerRepository.isAnswerExist(answer.TestId, answer.QuestionId, answer.Answers);
+                if (isansexist)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "Answer is already added.";
+                    return response;
+                }
                 var addans = _answerRepository.AddAnswer(_mapper.Map<Answer>(answer));
-                if (addans != null)
+                if (addans > 0)
                 {
                     response.Status = 204;
                     response.Message = "Answer Created.";
@@ -135,7 +141,7 @@ namespace OnlineTest.Services.Services
                 {
                     TestId = answer.TestId,
                     QuestionId = answer.QuestionId,
-                    AnswerId =Convert.ToInt32( addans),
+                    AnswerId = Convert.ToInt32(addans),
                     Active = true,
                     CreateBy = answer.CreatedBy,
                     CreatedOn = answer.CreatedOn,
@@ -194,7 +200,7 @@ namespace OnlineTest.Services.Services
             var response = new ResponseDTO();
             try
             {
-                var pg =_mapper.Map<List<GetAnswerDTO>>(_answerRepository.Pagination(page, content).ToList());
+                var pg = _mapper.Map<List<GetAnswerDTO>>(_answerRepository.Pagination(page, content).ToList());
                 if (pg != null)
                 {
                     response.Status = 200;

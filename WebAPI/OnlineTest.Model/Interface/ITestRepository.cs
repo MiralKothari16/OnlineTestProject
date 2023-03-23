@@ -9,7 +9,7 @@ namespace OnlineTest.Model.Interface
     public interface ITestRepository
     {
         IEnumerable<Test> GetTest();
-        bool AddTest(Test test);
+        int AddTest(Test test);
         
         bool UpdateTest(Test test);
 

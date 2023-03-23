@@ -190,13 +190,13 @@ namespace OnlineTest.Services.Services
                 }
                 var technm = _technologyRepository.GetTechnologyByName(technology.TechName);
                 if (technm != null && techId.Id != technology.Id )
-                if(technm!=null)
+                //if(technm == null)
                 {
                     response.Status = 400;
                     response.Message = "Bad Request.";
                     response.Error = "Technology is already exist.";
                 }
-                if (technm == null && technm.Id == technology.Id)
+                if (technm != null && technm.Id == technology.Id)
                 {
                     var UpdateTechnology = _technologyRepository.UpdateTechnology(_mapper.Map<Technology>(technology));
                     if (UpdateTechnology != null)
@@ -221,7 +221,6 @@ namespace OnlineTest.Services.Services
             }
             return response;
         }
-
         public ResponseDTO TechPagination(int page, int content)
         {
             var response = new ResponseDTO();

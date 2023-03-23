@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -10,6 +11,7 @@ using OnlineTest.Services.Services;
 
 namespace OnlineTest.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TechnologyController : ControllerBase

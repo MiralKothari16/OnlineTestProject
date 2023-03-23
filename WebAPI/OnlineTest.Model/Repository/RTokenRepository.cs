@@ -15,6 +15,11 @@ namespace OnlineTest.Model.Repository
         {
             _context = context;
         }
+        public RToken Get(string refreshToken)
+        {
+            return _context.RTokens.FirstOrDefault(predicate: x => x.RefreshToken == refreshToken);
+        }
+
         public bool Add(RToken token)
         {
             _context.RTokens.Add(token);
@@ -25,12 +30,5 @@ namespace OnlineTest.Model.Repository
              _context.RTokens.Update(token);
             return _context.SaveChanges()>0;
         }
-
-        public RToken Get(string refreshToken)
-        {
-            return _context.RTokens.FirstOrDefault(predicate: x => x.RefreshToken == refreshToken); 
-        }
-
-
     }
 }

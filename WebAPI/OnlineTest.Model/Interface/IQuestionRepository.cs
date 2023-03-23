@@ -9,8 +9,9 @@ namespace OnlineTest.Model.Interface
     public interface IQuestionRepository
     {
         IEnumerable<Questions> GetQuestions();
-        bool AddQuestions(Questions question);
+        int AddQuestions(Questions question);
         bool UpdateQuestions(Questions question);
+        bool IsQuestionExist(int testid, string Que);
         Questions GetQuestionById(int id);
         IEnumerable<Questions> GetQuestionByTestId(int testId);
         IEnumerable<Questions> Paginnation(int page, int content);

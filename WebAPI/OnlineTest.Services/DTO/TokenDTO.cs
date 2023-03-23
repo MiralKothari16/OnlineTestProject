@@ -15,7 +15,6 @@ namespace OnlineTest.Services.DTO
             Refresh_Token = string.Empty;
             Username = string.Empty;
             Password = string.Empty;
-
         }
         public string Grant_Type { get; set; } 
         

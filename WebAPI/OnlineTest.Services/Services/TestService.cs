@@ -27,16 +27,20 @@ namespace OnlineTest.Services.Services
         // private readonly IQuestionAnswerMapping _questionAnswerMapping;
         private readonly IQuestionRepository _questionRepository;
         private readonly IAnswerRepository _answerRepository;
+        private readonly ITestEmailLinkRepository _testEmailLinkRepository;
+
+
         private readonly IMapper _mapper;
         #endregion
         #region Cntr
-        public TestService(ITestRepository testrepository, IUserRepository userRepository, ITechnologyRepository technologyRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, IMapper mapper)//IQuestionAnswerMapping questionAnswerMapping)
+        public TestService(ITestRepository testrepository, IUserRepository userRepository, ITechnologyRepository technologyRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository, ITestEmailLinkRepository testEmailLinkRepository, IMapper mapper)//IQuestionAnswerMapping questionAnswerMapping)
         {
             _testrepository = testrepository;
             _userRepository = userRepository;
             _technologyRepository = technologyRepository;
             _questionRepository = questionRepository;
             _answerRepository = answerRepository;
+            _testEmailLinkRepository = testEmailLinkRepository;
             _mapper = mapper;
             // _questionAnswerMapping = questionAnswerMapping;
         }
@@ -119,13 +123,13 @@ namespace OnlineTest.Services.Services
                     response.Error = "Technology not found";
                     return response;
                 }
-               
+
                 var data = _mapper.Map<List<GetTestDTO>>(_testrepository.GetTestByTechnologyId(technologyId)).ToList();
                 response.Status = 200;
                 response.Message = "Ok";
                 response.Data = data;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 response.Status = 500;
                 response.Message = "Internal server error.";
@@ -157,7 +161,7 @@ namespace OnlineTest.Services.Services
                 if (resultCrId != null && resultTechId != null)
                 {
                     var addTest = _testrepository.AddTest(_mapper.Map<Test>(test));
-                    if (addTest)
+                    if (addTest > 0)
                     {
                         response.Status = 204;
                         response.Message = "Test is  Created.";
@@ -242,6 +246,76 @@ namespace OnlineTest.Services.Services
             }
             return response;
         }
+
+        public ResponseDTO AddTestEmail(int adminId, int testId, string userEmail)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                //check if user is exists or not.
+                var resultuserByEmail = _userRepository.GetUserByEmail(userEmail);
+                if (resultuserByEmail == null)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "User not found";
+                    return response;
+                }
+
+                //check if test is exists or not.
+                var testById = _testrepository.GetTestById(testId);
+                if (testById == null)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "Test not found";
+                    return response;
+                }
+                //check if link is already created and is not expired
+                var existsFlag = _testEmailLinkRepository.IsLinkExist(testId, resultuserByEmail.Id);
+                if (existsFlag)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "Test link already exists";
+                    return response;
+                }
+
+                var testLink = new TestEmailLink
+                {
+                    TestId = testId,
+                    UserId = resultuserByEmail.Id,
+                    Token = Guid.NewGuid(),
+                    AccessCount = 0,
+                    ExpireOn = DateTime.UtcNow.AddDays(7),
+                    Active = true,
+                    CreatedBy = adminId,
+                    CreatedOn = DateTime.UtcNow,
+                };
+
+                var addTest = _testEmailLinkRepository.AddTestEmail(testLink);
+                if (addTest == 0)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "Test link is not added";
+                    return response;
+                }
+                response.Status = 201;
+                response.Message = "Created";
+                response.Data = addTest;
+            }
+            catch (Exception ex)
+            {
+                response.Status = 500;
+                response.Message = "Internal Server Error";
+                response.Error = ex.Message;
+            }
+            return response;
+        }
+
+       
         #endregion
+
     }
 }

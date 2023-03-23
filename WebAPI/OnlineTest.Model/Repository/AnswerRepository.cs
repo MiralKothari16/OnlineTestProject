@@ -47,10 +47,12 @@ namespace OnlineTest.Model.Repository
                         };
             return query.ToList();
         }
-        public bool AddAnswer(Answer answer)
+        public int AddAnswer(Answer answer)
         {
             _context.Answers.Add(answer);
-            return _context.SaveChanges() > 0;
+            if (_context.SaveChanges() > 0) 
+            { return answer.Id; }
+            else { return 0; }
         }
 
         public bool UpdateAnswer(Answer answer)
@@ -62,6 +64,20 @@ namespace OnlineTest.Model.Repository
         public IEnumerable<Answer> Pagination(int page, int content)
         {
             return _context.Answers.Skip((page - 1) * content).Take(content).ToList();
+        }
+
+        bool IAnswerRepository.isAnswerExist(int testId, int quesId, string answ)
+        {
+            var exstans = (from ans in _context.Answers
+                           join qamap in _context.QuestionAnswerMapping
+                             on ans.Id equals qamap.AnswerId
+                           where qamap.QuestionId == quesId && qamap.TestId == testId && ans.Answers == answ
+                           select new { Id = qamap.Id }).FirstOrDefault();
+            if (exstans != null)
+            {
+                return true;
+            }
+            else return false;
         }
 
         #endregion

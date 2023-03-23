@@ -22,5 +22,8 @@ namespace OnlineTest.Services.Interface
 
         //List<TestDTO> Search(int Id, string TestName, int CreatedBy, DateTime createdon, DateTime expireon, string techname);
         ResponseDTO TestPagination(int Page, int Count);
+        
+        //Addmethod of  Testemaillinks 
+        ResponseDTO AddTestEmail(int adminid, int testid, string useremail);
     }
 }
