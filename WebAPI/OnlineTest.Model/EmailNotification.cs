@@ -22,7 +22,7 @@ namespace OnlineTest.Model
         public DateTime CreatedOn { get; set; }
         public bool IsProcessed { get; set; }
         [Column (TypeName ="DateTime")]
-        public DateTime ProcessedOn { get; set;}
+        public DateTime? ProcessedOn { get; set;}
 
         public virtual User user_Id { get; set; }
     }

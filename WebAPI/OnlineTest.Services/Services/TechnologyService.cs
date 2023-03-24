@@ -154,7 +154,7 @@ namespace OnlineTest.Services.Services
                 {
                     var addTechnology = _technologyRepository.AddTechnology(_mapper.Map<Technology>(technology));
                    
-                    if (addTechnology)
+                    if (addTechnology>0)
                     {
                         response.Status = 204;
                         response.Message = "Technology Created.";

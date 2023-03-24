@@ -21,10 +21,10 @@ namespace OnlineTest.Model
         [Column (TypeName ="DateTime")]
         public DateTime CreatedOn    { get; set;}
         [Column (TypeName ="DateTime")]
-        public DateTime AccessedOn { get; set;}
+        public DateTime? AccessedOn { get; set;}
         public int AccessCount { get; set; }
         [Column (TypeName ="DateTime")]
-        public DateTime SubmitOn { get; set; }
+        public DateTime? SubmitOn { get; set; }
         [Column (TypeName="DateTime")]
         public DateTime ExpireOn { get; set;}
         public bool Active { get; set; }

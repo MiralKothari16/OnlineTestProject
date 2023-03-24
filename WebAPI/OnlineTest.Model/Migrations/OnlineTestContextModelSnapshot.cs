@@ -49,6 +49,31 @@ namespace OnlineTest.Model.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("OnlineTest.Model.AnswerSheet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AnswersSheet");
+                });
+
             modelBuilder.Entity("OnlineTest.Model.EmailNotification", b =>
                 {
                     b.Property<int>("Id")
@@ -74,7 +99,7 @@ namespace OnlineTest.Model.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ProcessedOn")
+                    b.Property<DateTime?>("ProcessedOn")
                         .HasColumnType("DateTime");
 
                     b.Property<string>("ToEmail")
@@ -313,7 +338,7 @@ namespace OnlineTest.Model.Migrations
                     b.Property<int>("AccessCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("AccessedOn")
+                    b.Property<DateTime?>("AccessedOn")
                         .HasColumnType("DateTime");
 
                     b.Property<bool>("Active")
@@ -328,7 +353,7 @@ namespace OnlineTest.Model.Migrations
                     b.Property<DateTime>("ExpireOn")
                         .HasColumnType("DateTime");
 
-                    b.Property<DateTime>("SubmitOn")
+                    b.Property<DateTime?>("SubmitOn")
                         .HasColumnType("DateTime");
 
                     b.Property<int>("TestId")

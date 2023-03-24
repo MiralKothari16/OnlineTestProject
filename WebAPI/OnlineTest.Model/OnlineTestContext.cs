@@ -28,6 +28,7 @@ namespace OnlineTest.Model
 
         public DbSet<TestEmailLink>TestEmailLinks { get; set; }
         public DbSet<EmailNotification> EmailNotifications { get; set; }
+        public DbSet<AnswerSheet> AnswersSheet { get; set;}
 
 
     }

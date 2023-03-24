@@ -8,7 +8,11 @@ namespace OnlineTest.Model.Interface
 {
     public interface ITestEmailLinkRepository
     {
-        int AddTestEmail(TestEmailLink testEmailLink);
+        int AddTestEmailLink(TestEmailLink testEmailLink);
         bool IsLinkExist(int TestId,int UserId);
+
+        TestEmailLink GetTestEmailLink(Guid token);
+
+        bool UpdateTestEmailLink(TestEmailLink testEmailLink);
     }
 }

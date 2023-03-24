@@ -29,5 +29,6 @@ namespace OnlineTest.Services.DTO.AddDTO
         public string MobileNo { get; set; }
 
         public bool IsActive { get; set; } = true;
+        public bool IsAdmin { get; set; }
     }
 }

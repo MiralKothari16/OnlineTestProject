@@ -9,7 +9,7 @@ namespace OnlineTest.Model.Interface
     public interface ITechnologyRepository
     {
         IEnumerable<Technology> GetTechnology();
-         bool AddTechnology(Technology technology); 
+         int AddTechnology(Technology technology); 
         bool UpdateTechnology(Technology technology);   
         Technology GetTechnologyById(int id);
       //  bool DeleteTechnology(int Id);

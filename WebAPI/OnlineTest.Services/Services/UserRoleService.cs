@@ -1,5 +1,6 @@
 ﻿using OnlineTest.Model.Interface;
 using OnlineTest.Model.Repository;
+using OnlineTest.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OnlineTest.Services.Services
 {
-    public class UserRoleService
+    public class UserRoleService : IUserRoleService
     {
         #region fields
         private readonly IUserRoleRepository _userRoleRepository;

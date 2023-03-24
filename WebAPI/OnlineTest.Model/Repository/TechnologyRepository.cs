@@ -36,10 +36,17 @@ namespace OnlineTest.Model.Repository
         {
             return _context.Technology.FirstOrDefault(x => x.TechName == name.Trim());
         }
-        public bool AddTechnology(Technology technology)
+        public int AddTechnology(Technology technology)
         {
             _context.Technology.Add(technology);
-            return _context.SaveChanges() > 0;
+            if(_context.SaveChanges() > 0)
+            {
+                return technology.Id;
+            }
+            else
+            {
+                return 0;
+            }
         }
         public bool UpdateTechnology(Technology technology)
         {

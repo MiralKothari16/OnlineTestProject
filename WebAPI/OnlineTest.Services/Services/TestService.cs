@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OnlineTest.Services.Services
 {
@@ -247,7 +248,7 @@ namespace OnlineTest.Services.Services
             return response;
         }
 
-        public ResponseDTO AddTestEmail(int adminId, int testId, string userEmail)
+        public ResponseDTO AddTestEmailLink(int adminId, int testId, string userEmail)
         {
             var response = new ResponseDTO();
             try
@@ -284,7 +285,7 @@ namespace OnlineTest.Services.Services
                 var testLink = new TestEmailLink
                 {
                     TestId = testId,
-                    UserId = resultuserByEmail.Id,
+                    UserId = resultuserByEmail.Id,  
                     Token = Guid.NewGuid(),
                     AccessCount = 0,
                     ExpireOn = DateTime.UtcNow.AddDays(7),
@@ -293,7 +294,7 @@ namespace OnlineTest.Services.Services
                     CreatedOn = DateTime.UtcNow,
                 };
 
-                var addTest = _testEmailLinkRepository.AddTestEmail(testLink);
+                var addTest = _testEmailLinkRepository.AddTestEmailLink(testLink);
                 if (addTest == 0)
                 {
                     response.Status = 400;
@@ -314,8 +315,45 @@ namespace OnlineTest.Services.Services
             return response;
         }
 
+        public ResponseDTO GetTestEmailLink(string token, string email)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var testLink = _testEmailLinkRepository.GetTestEmailLink(Guid.Parse(token));
+                if (testLink == null)
+                {
+                    response.Status = 400;
+                    response.Message = "Not Created";
+                    response.Error = "Test link is not exists or it is expired";
+                    return response;
+                }
+
+                var userById = _userRepository.GetUserById(testLink.UserId);
+                if (email.ToLower() != userById.Email.ToLower())
+                {
+                    response.Status = 400;
+                    response.Message = "Bad Request";
+                    response.Error = "Email is incorrect";
+                    return response;
+                }
+                response = GetTestById(testLink.TestId);
+                if (response.Status == 200)
+                {
+                    testLink.AccessedOn = DateTime.UtcNow;
+                    _testEmailLinkRepository.UpdateTestEmailLink(testLink);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = 500;
+                response.Message = "Internal Server Error";
+                response.Error = ex.Message;
+            }
+            return response;
+        }
+
        
         #endregion
-
     }
 }

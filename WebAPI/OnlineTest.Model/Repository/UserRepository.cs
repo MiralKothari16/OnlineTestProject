@@ -25,10 +25,10 @@ namespace OnlineTest.Model.Repository
 
         #region Methods
 
-        public bool AddUser(User user)
+        public int AddUser(User user)
         {
             _context.Users.Add(user);
-            return _context.SaveChanges() >0;
+            if(_context.SaveChanges() > 0) { return user.Id; }else {  return 0; }
         }
         public IEnumerable<User> GetUsers()
         {

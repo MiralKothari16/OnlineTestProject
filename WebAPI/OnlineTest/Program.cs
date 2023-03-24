@@ -45,8 +45,12 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IAnswerService, AnswerService>();
 builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 builder.Services.AddScoped<IQuestionAnswerMappingRepository, QuestionAnswerMappingRepository>();
-builder.Services.AddScoped<ITestEmailLinkService, TestEmailLinksService>();
 builder.Services.AddScoped<ITestEmailLinkRepository, TestEmailLinkRepository>();
+builder.Services.AddScoped<IHasherService,HasherService>();
+builder.Services.AddScoped<IUserRoleRepository,UserRoleRepository>();
+builder.Services.AddScoped<IUserRoleService,UserRoleService>();
+
+
 
 
 builder.Services.Configure<JWTConfigDTO>(builder.Configuration.GetSection("JWTConfig"));

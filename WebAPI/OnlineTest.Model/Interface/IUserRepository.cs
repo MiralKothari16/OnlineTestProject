@@ -9,7 +9,7 @@ namespace OnlineTest.Model.Interface
     public interface IUserRepository
     {
         IEnumerable<User> GetUsers();
-        bool AddUser(User user);   
+        int AddUser(User user);   
         bool UpdateUser(User user);
         bool DeleteUser(User user);
         //IEnumerable<User> GetUser(int Id);

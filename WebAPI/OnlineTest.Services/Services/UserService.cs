@@ -22,16 +22,20 @@ namespace OnlineTest.Services.Services
     {
         #region fields
 
+        private readonly IHasherService _hasherService;
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userroleRepository;
         private readonly IMapper _mapper;
 
         #endregion
 
         #region Contr
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IHasherService hasherService, IUserRoleRepository userroleRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _hasherService = hasherService;
+            _userroleRepository = userroleRepository;
         }
         #endregion
 
@@ -98,10 +102,29 @@ namespace OnlineTest.Services.Services
                     response.Error = "Email already exist.";
                     return response;
                 }
-
+                user.Password = _hasherService.Hash(user.Password);
+                user.IsActive = true;
                 var adduser = _userRepository.AddUser(_mapper.Map<User>(user));
-                if (adduser)
+                if (adduser > 0)
                 {
+                    if (user.IsAdmin)
+                    {
+                        var role = new UserRole
+                        {
+                            UserId = adduser,
+                            RoleId = 1
+                        };
+                        _userroleRepository.AddUserRole(role);
+                    }
+                    else
+                    {
+                        var role = new UserRole
+                        {
+                            UserId = adduser,
+                            RoleId = 2
+                        };
+                        _userroleRepository.AddUserRole(role);
+                    }
                     response.Status = 204;
                     response.Message = "User Created";
                 }
@@ -263,13 +286,14 @@ namespace OnlineTest.Services.Services
         public GetUserDTO IsUserExists(TokenDTO model)
         {
             var user = _userRepository.GetUsers().FirstOrDefault(x => x.Email.ToLower() == model.Username.ToLower() && x.Password == model.Password);
-            if (user == null)
+            if (user == null || user.Password != _hasherService.Hash(user.Password))
             {
-                throw new Exception("User not found");
+                return null;
+                //throw new Exception("User not found");
             }
+            else { }
             return _mapper.Map<GetUserDTO>(user);
         }
         #endregion
     }
-
 }

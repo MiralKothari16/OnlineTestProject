@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineTest.Model;
 using OnlineTest.Services.DTO;
 using OnlineTest.Services.DTO.AddDTO;
 using OnlineTest.Services.DTO.GetDTO;
@@ -51,7 +52,13 @@ namespace OnlineTest.Controllers
         [HttpPost("link")]
         public IActionResult AddTestLink(int testId, string userEmail)
         {
-            return Ok(_testService.AddTestEmail(Convert.ToInt32(User.FindFirstValue("Id")), testId, userEmail));
+            return Ok(_testService.AddTestEmailLink(Convert.ToInt32(User.FindFirstValue("Id")), testId, userEmail));
+        }
+        [HttpGet("TestwiseData")]
+        public IActionResult GetTestEmailLink(string token,string email)
+        {
+            return Ok(_testService.GetTestEmailLink(token,email));
+            //return Ok(_testService.GetTestEmailLink(email));
         }
     }
 }

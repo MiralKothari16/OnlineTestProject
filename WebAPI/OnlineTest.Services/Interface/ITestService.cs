@@ -1,4 +1,5 @@
-﻿using OnlineTest.Services.DTO;
+﻿using OnlineTest.Model;
+using OnlineTest.Services.DTO;
 using OnlineTest.Services.DTO.AddDTO;
 using OnlineTest.Services.DTO.UpdateDTO;
 using System;
@@ -24,6 +25,8 @@ namespace OnlineTest.Services.Interface
         ResponseDTO TestPagination(int Page, int Count);
         
         //Addmethod of  Testemaillinks 
-        ResponseDTO AddTestEmail(int adminid, int testid, string useremail);
+        ResponseDTO AddTestEmailLink(int adminid, int testid, string useremail);
+
+        ResponseDTO GetTestEmailLink(string token,string email);
     }
 }
