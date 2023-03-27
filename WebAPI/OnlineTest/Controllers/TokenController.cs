@@ -67,6 +67,7 @@ namespace OnlineTest.Controllers
         {
             var sessionModel = _userService.IsUserExists(parameters);
             if (sessionModel  == null)
+
             {
                 throw new Exception("Invalid Username or Password.");
             }

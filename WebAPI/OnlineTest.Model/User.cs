@@ -17,7 +17,7 @@ namespace OnlineTest.Model
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        [MaxLength(30)]
+        [MaxLength(256)]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
@@ -26,7 +26,7 @@ namespace OnlineTest.Model
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Mobile No is required.")]
-        [MaxLength(12)]
+        [MaxLength(10)]
         public string MobileNo { get; set; }
         
         public bool IsActive { get; set; }

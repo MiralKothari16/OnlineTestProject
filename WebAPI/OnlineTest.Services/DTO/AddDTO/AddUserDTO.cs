@@ -15,7 +15,7 @@ namespace OnlineTest.Services.DTO.AddDTO
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        [MaxLength(30),MinLength(5, ErrorMessage = "Password should be minimum {2} to maximum {1} characters long.")]
+        [StringLength(30,MinimumLength =5, ErrorMessage = "Password should be minimum {2} to maximum {1} characters long.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
@@ -24,8 +24,8 @@ namespace OnlineTest.Services.DTO.AddDTO
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Mobile No is required.")]
-        [RegularExpression("^([0-9]{12})$",ErrorMessage = "Mobile number must contain 12 or less than 12 digits." )]
-        [MaxLength(12)]
+        [RegularExpression(@"^\d{10}$" ,ErrorMessage = "Mobile number must contain 10 digits only." )]
+        [MaxLength(10)]
         public string MobileNo { get; set; }
 
         public bool IsActive { get; set; } = true;

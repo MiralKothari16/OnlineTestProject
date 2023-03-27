@@ -28,5 +28,7 @@ namespace OnlineTest.Services.Interface
         ResponseDTO AddTestEmailLink(int adminid, int testid, string useremail);
 
         ResponseDTO GetTestEmailLink(string token,string email);
+
+        ResponseDTO SubmitTest(AddAnswersheetDTO answershreet);
     }
 }

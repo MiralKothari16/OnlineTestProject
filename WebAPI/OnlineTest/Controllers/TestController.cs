@@ -49,16 +49,21 @@ namespace OnlineTest.Controllers
         {
             return Ok(_testService.UpdateTest(test));
         }
-        [HttpPost("link")]
+        [HttpPost("GenerateTestLink")]
         public IActionResult AddTestLink(int testId, string userEmail)
         {
             return Ok(_testService.AddTestEmailLink(Convert.ToInt32(User.FindFirstValue("Id")), testId, userEmail));
         }
-        [HttpGet("TestwiseData")]
+        [HttpGet("GetTestByCandidate")]
         public IActionResult GetTestEmailLink(string token,string email)
         {
             return Ok(_testService.GetTestEmailLink(token,email));
             //return Ok(_testService.GetTestEmailLink(email));
+        }
+        [HttpPost("SubmitTest")]
+        public IActionResult SubmitTest (AddAnswersheetDTO answersheet)
+        {
+            return Ok(_testService.SubmitTest(answersheet));
         }
     }
 }

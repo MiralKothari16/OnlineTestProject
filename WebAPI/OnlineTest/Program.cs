@@ -49,6 +49,7 @@ builder.Services.AddScoped<ITestEmailLinkRepository, TestEmailLinkRepository>();
 builder.Services.AddScoped<IHasherService,HasherService>();
 builder.Services.AddScoped<IUserRoleRepository,UserRoleRepository>();
 builder.Services.AddScoped<IUserRoleService,UserRoleService>();
+builder.Services.AddScoped<IAnswerSheetRepository, AnswerSheetRepository>();
 
 
 

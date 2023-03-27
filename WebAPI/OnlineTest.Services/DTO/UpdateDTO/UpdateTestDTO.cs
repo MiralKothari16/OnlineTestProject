@@ -11,7 +11,7 @@ namespace OnlineTest.Services.DTO.UpdateDTO
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Test Name is required.")]
-        [MaxLength(20, ErrorMessage = "Test Name should be{1}characters long.")]
+        [MaxLength(20, ErrorMessage = "Test Name should be {1} characters long.")]
         public string TestName { get; set; }
         [MaxLength(100, ErrorMessage = "Test Description should be {1} characters long.")]
         public string Description { get; set; }
