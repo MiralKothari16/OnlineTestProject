@@ -42,6 +42,8 @@ namespace OnlineTest.Model.Repository
         public bool UpdateTestEmailLink(TestEmailLink testEmailLink)
         {
             _context.Entry(testEmailLink).Property("AccessedOn").IsModified = true;
+            _context.Entry(testEmailLink).Property("AccessCount").IsModified = true;
+            _context.Entry(testEmailLink).Property("SubmitOn").IsModified = true;
             return _context.SaveChanges() > 0;
         }
 

@@ -10,6 +10,6 @@ namespace OnlineTest.Model.Interface
     {
         IEnumerable<AnswerSheet> GetTestAnswers();
         
-        int AddAnswerSheet(AnswerSheet answerSheet);
+        bool AddAnswerSheet(List<AnswerSheet> answerSheet);
     }
 }

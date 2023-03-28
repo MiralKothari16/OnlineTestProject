@@ -29,7 +29,9 @@ namespace OnlineTest.Model
 
         [Column(TypeName = "DateTime")]
         public DateTime? ModifiedOn { get; set; }
-        
+
+        public bool Active { get; set; }
+
         public virtual User UserCreatedBy { get; set; }
        
         public virtual User UserModifiedBy { get; set; }

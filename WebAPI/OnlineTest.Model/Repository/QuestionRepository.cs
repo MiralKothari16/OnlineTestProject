@@ -29,7 +29,7 @@ namespace OnlineTest.Model.Repository
 
         public Questions GetQuestionById(int id)
         {
-            return _context.Questions.FirstOrDefault(x=>x.Id==id);            
+            return _context.Questions.FirstOrDefault(x=>x.Id==id && x.Active==true);            
         }
 
         public int AddQuestions(Questions question)
@@ -55,21 +55,27 @@ namespace OnlineTest.Model.Repository
 
         IEnumerable<Questions> IQuestionRepository.GetQuestionByTestId(int testId)
         {
-            return _context.Questions.Where(x => x.TestId == testId && x.Active == true).ToList();
+            return _context.Questions.Where(x => x.TestId == testId && x.Active == true).OrderBy(q=>q.SortOrder).ToList();
         }
 
-        bool IQuestionRepository.IsQuestionExist(int testid, string que)
+        //bool IQuestionRepository.IsQuestionExist(int testid, string que)
+        //{
+        //    var result = _context.Questions.FirstOrDefault(x => x.TestId == testid && x.Que == que & x.Active == true);
+        //    if (result != null)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+        public Questions IsQuestionExist(Questions question)
         {
-            var result = _context.Questions.Where(x => x.TestId == testid && x.Que == que & x.Active == true);
-            if (result != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var result = _context.Questions.FirstOrDefault(x => x.TestId == question.TestId && x.Que == question.Que & x.Active == true);
+            return result;
         }
+
 
         #endregion
     }

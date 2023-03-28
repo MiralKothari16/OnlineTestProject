@@ -11,7 +11,7 @@ namespace OnlineTest.Model.Interface
         IEnumerable<Questions> GetQuestions();
         int AddQuestions(Questions question);
         bool UpdateQuestions(Questions question);
-        bool IsQuestionExist(int testid, string Que);
+        Questions IsQuestionExist(Questions question);
         Questions GetQuestionById(int id);
         IEnumerable<Questions> GetQuestionByTestId(int testId);
         IEnumerable<Questions> Paginnation(int page, int content);

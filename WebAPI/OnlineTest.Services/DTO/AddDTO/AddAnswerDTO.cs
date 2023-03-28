@@ -20,5 +20,6 @@ namespace OnlineTest.Services.DTO.AddDTO
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public int TestId { get; set; }
         public int QuestionId { get; set; }
+        public bool IsAnswer { get; set; }
     }
 }

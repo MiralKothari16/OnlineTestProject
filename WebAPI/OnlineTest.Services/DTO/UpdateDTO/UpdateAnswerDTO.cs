@@ -13,5 +13,6 @@ namespace OnlineTest.Services.DTO.UpdateDTO
         [Required(ErrorMessage = "Answer is required.")]
         // [MaxLength(100, ErrorMessage ="Answer can be {1} characters long.")]
         public string Answers { get; set; }
+       // public bool IsAnswer { get; set; }
     }
 }

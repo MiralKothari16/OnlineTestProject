@@ -145,10 +145,11 @@ namespace OnlineTest.Services.Services
                     Active = true,
                     CreateBy = answer.CreatedBy,
                     CreatedOn = answer.CreatedOn,
+                    IsAnswer = answer.IsAnswer
                 };
                 _questionAnswerMappingRepository.AddQAMapping(map);
                 response.Status = 201;
-                response.Message = "Created";
+                response.Message = "Answer Created";
                 response.Data = Convert.ToInt32(addans);
 
             }

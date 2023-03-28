@@ -346,6 +346,7 @@ namespace OnlineTest.Services.Services
             var response = new ResponseDTO();
             try
             {
+                //check if testlink is exist and not expired.
                 var testLink = _testEmailLinkRepository.GetTestEmailLink(Guid.Parse(token));
                 if (testLink == null)
                 {
@@ -355,8 +356,9 @@ namespace OnlineTest.Services.Services
                     return response;
                 }
                 testLink.AccessCount += 1;
+                _testEmailLinkRepository.UpdateTestEmailLink(testLink);
 
-
+                // check if email is valid
                 var userById = _userRepository.GetUserById(testLink.UserId);
                 if (email.ToLower() != userById.Email.ToLower())
                 {
@@ -365,6 +367,15 @@ namespace OnlineTest.Services.Services
                     response.Error = "Email is incorrect";
                     return response;
                 }
+                //check if test has already submitted.
+                if (testLink.SubmitOn != null)
+                {
+                    response.Status = 400;
+                    response.Message = "Bad request.";
+                    response.Error = "Test has already been submitted.";
+                    return response;
+                }
+
                 response = GetTestById(testLink.TestId);
                 if (response.Status == 200)
                 {
@@ -386,22 +397,36 @@ namespace OnlineTest.Services.Services
             ResponseDTO response = new ResponseDTO();
             try
             {
+                var testLink = _testEmailLinkRepository.GetTestEmailLink(Guid.Parse(answersheet.Token));
+                if (testLink.SubmitOn != null)
+                {
+                    response.Status = 400;
+                    response.Message = "Bad Request";
+                    response.Error = "Test has already been submitted";
+                    return response;
+                }
+                // add answer sheet to database
+                answersheet.CreatedOn = DateTime.UtcNow;
+                List<AnswerSheet> answerSheets = new List<AnswerSheet>();
                 foreach (var question in answersheet.Questions)
                 {
-                    foreach (var answer in question.Answers)
+                    var sheet = new AnswerSheet
                     {
-                        var anssheet = new AnswerSheet
-                        {
-                            Token = answersheet.Token,
-                            QuestionId = question.QuestionId,
-                            AnswerId = answer,
-                            CreatedOn = answersheet.CreatedOn
-                        };
-                        _answerSheetRepository.AddAnswerSheet(anssheet);
-                    }
+                        Token = Guid.Parse(answersheet.Token),
+                        QuestionId = question.QuestionId,
+                        AnswerId = question.AnswersId,
+                        CreatedOn = answersheet.CreatedOn
+                    };
+                    answerSheets.Add(sheet);
                 }
+                _answerSheetRepository.AddAnswerSheet(answerSheets);
+
+                // update SubmitOn property of test link
+                testLink.SubmitOn = DateTime.UtcNow;
+                _testEmailLinkRepository.UpdateTestEmailLink(testLink);
+
                 response.Status = 200;
-                response.Message = "OK";
+                response.Message = "Ok";
             }
             catch (Exception ex)
             {

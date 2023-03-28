@@ -286,8 +286,8 @@ namespace OnlineTest.Services.Services
         public GetUserDTO IsUserExists(TokenDTO model)
         {
             //var user = _userRepository.GetUserByEmail(model.Email);
-            var user = _userRepository.GetUsers().FirstOrDefault(x => x.Email.ToLower() == model.Username.ToLower() && x.Password == model.Password);
-            if (user == null || user.Password != _hasherService.Hash(user.Password))
+            var user = _userRepository.GetUsers().FirstOrDefault(x => x.Email.ToLower() == model.Username.ToLower());// && x.Password == model.Password);
+            if (user == null || user.Password != _hasherService.Hash(model.Password))
             {
                 return null;
                 //throw new Exception("User not found");

@@ -11,7 +11,7 @@ using OnlineTest.Services.Services;
 
 namespace OnlineTest.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TechnologyController : ControllerBase

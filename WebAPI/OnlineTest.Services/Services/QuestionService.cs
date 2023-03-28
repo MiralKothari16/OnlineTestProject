@@ -144,7 +144,7 @@ namespace OnlineTest.Services.Services
                     response.Message = "Bad Request.";
                     response.Error = "Test not found.";
                 }
-                var resultExistQue = _questionRepository.IsQuestionExist(question.TestId, question.Que);
+                var resultExistQue = _questionRepository.IsQuestionExist(_mapper.Map<Questions>(question));//(question.TestId, question.Que);
                 if(resultExistQue!= null)
                 {
                     response.Status = 400;
@@ -196,7 +196,7 @@ namespace OnlineTest.Services.Services
                     response.Error = "Question not found";
                     return response;
                 }
-                var resultExistQue = _questionRepository.IsQuestionExist(question.TestId, question.Que);
+                var resultExistQue = _questionRepository.IsQuestionExist(_mapper.Map<Questions>(question));
                 if (resultExistQue != null)
                 {
                     response.Status = 400;
